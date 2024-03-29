@@ -26,12 +26,14 @@ import AutoImport from 'unplugin-auto-import/vite'
 // import viteCompression from 'vite-plugin-compression'
 import ViteRestart from 'vite-plugin-restart'
 
+console.log('process.platform -> ', process.platform)
+
 // https://vitejs.dev/config/
 export default ({ command, mode }) => {
   // console.log(mode === process.env.NODE_ENV) // true
 
   // mode: 区分生产环境还是开发环境
-  console.log(command, mode)
+  console.log('command, mode -> ', command, mode)
   // pnpm dev:h5 时得到 => serve development
   // pnpm build:h5 时得到 => build production
   // pnpm dev:mp-weixin 时得到 => build development (注意区别，command为build)
@@ -40,11 +42,13 @@ export default ({ command, mode }) => {
   // process.cwd(): 获取当前文件的目录跟地址
   // loadEnv(): 返回当前环境env文件中额外定义的变量
   const env = loadEnv(mode, path.resolve(process.cwd(), 'env'))
-  console.log(env)
-  console.log(process.env.UNI_PLATFORM) // 得到 mp-weixin, h5 等
+  console.log('env -> ', env)
+  console.log('process.env.UNI_PLATFORM: ', process.env.UNI_PLATFORM) // 得到 mp-weixin, h5, app 等
+  console.log('isH5: ', process.env.UNI_PLATFORM === 'h5') // 得到 mp-weixin, h5, app 等
 
   return defineConfig({
     envDir: './env', // 自定义env目录
+
     plugins: [
       UniPages({
         exclude: ['**/components/**/**.*', '**/my/**/**.vue'],
@@ -106,6 +110,7 @@ export default ({ command, mode }) => {
     resolve: {
       alias: {
         '@': path.join(process.cwd(), './src'),
+        '@img': path.join(process.cwd(), './src/static/images'),
       },
     },
     server: {
@@ -122,6 +127,13 @@ export default ({ command, mode }) => {
           drop_debugger: env.VITE_DELETE_CONSOLE === 'true',
         },
       },
+      // 解决windows系统对微信小程序自动关闭服务的问题
+      watch:
+        process.platform === 'win32' // 检测是否为 windows 系统
+          ? {
+              exclude: ['node_modules/**', '/__uno.css'],
+            }
+          : null,
     },
   })
 }
