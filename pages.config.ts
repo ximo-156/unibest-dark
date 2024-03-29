@@ -17,7 +17,6 @@ export default defineUniPages({
   easycom: {
     autoscan: true,
     custom: {
-      '^uni-(.*)': '@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue',
       '^uv-(.*)': '@climblee/uv-ui/components/uv-$1/uv-$1.vue',
       '^wd-(.*)': 'wot-design-uni/components/wd-$1/wd-$1.vue',
     },
@@ -25,7 +24,7 @@ export default defineUniPages({
   tabBar: {
     height: '50px',
     fontSize: '10px',
-    iconWidth: '24px',
+    iconWidth: '30px',
     spacing: '3px',
     color: '@tabFontColor',
     selectedColor: '@tabSelectedColor',
@@ -33,14 +32,14 @@ export default defineUniPages({
     borderStyle: '@tabBorderStyle',
     list: [
       {
-        iconPath: 'static/tabbar/home.png',
-        selectedIconPath: 'static/tabbar/homeHL.png',
+        iconPath: '@iconPath1',
+        selectedIconPath: '@selectedIconPath1',
         pagePath: 'pages/index/index',
         text: '首页',
       },
       {
-        iconPath: 'static/tabbar/example.png',
-        selectedIconPath: 'static/tabbar/exampleHL.png',
+        iconPath: '@iconPath2',
+        selectedIconPath: '@selectedIconPath2',
         pagePath: 'pages/demo/index',
         text: '示例',
       },
