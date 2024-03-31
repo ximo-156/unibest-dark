@@ -6,6 +6,7 @@
   </view>
 </template>
 <script lang="ts" setup>
+import { ref } from 'vue'
 import type { ConfigProviderThemeVars } from 'wot-design-uni'
 
 const themeVars: ConfigProviderThemeVars = {
@@ -18,6 +19,7 @@ const theme = ref('dark')
 uni.getSystemInfo({
   success(res) {
     theme.value = res.hostTheme
+    console.log(res)
   },
 })
 </script>
